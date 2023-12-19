@@ -33,10 +33,12 @@ def responseToSpring(request):
         print(fileName)
         
         flac_dir = videoToAudio(folder_dir,fileName)
-        bn =upload_file_to_gcs(flac_dir,"example.flac")
+        gcs_fileName = makeFileName('flac')
+        bn =upload_file_to_gcs(flac_dir,gcs_fileName)
         flacInGCS = "gs://audio_storage_tpj/"+bn
         result = transcribe_audio(flacInGCS)
-        
+        deleteUsedLocalFile(flac_dir)
+        deleteUsedGCSFile(gcs_fileName)
         
     except Exception as e:
         print(str(e))
@@ -82,11 +84,12 @@ def upload_file_to_gcs(local_file_path, outputFileName):
     
     return blob.name
 
-def transcribe_audio(audio_file_path):
+def transcribe_audio(flacInGCS):
     
     client = speech.SpeechClient()
 
-    audio = speech.RecognitionAudio(uri=audio_file_path)
+    audio = speech.RecognitionAudio(uri=flacInGCS)
+    
     config = speech.RecognitionConfig(
         encoding=speech.RecognitionConfig.AudioEncoding.FLAC,
         language_code="ko-KR",
@@ -96,13 +99,20 @@ def transcribe_audio(audio_file_path):
     )
     
     operation = client.long_running_recognize(config=config, audio=audio)
-    response = operation.result()
+    print("Waiting for operation to complete")
+    response = operation.result(timeout=600)
     
     response_json = MessageToJson(response._pb)
     jo = json.loads(response_json)
     
-    transcript=jo.get("results")[0].get("alternatives")[0].get("transcript")
-    words = jo.get("results")[0].get("alternatives")[0].get("words")
+    transcript = ""
+    words = []
+    top_words = []
+    
+    for j in jo.get("results"):
+        transcript.join(j.get("alternatives")[0].get("transcript"))
+        words += j.get("alternatives")[0].get("words")
+        
     top_words = get_top_words(transcript)
     
     results={
@@ -124,3 +134,31 @@ def get_top_words(transcript):
     sentence = [w for w in sentence if w not in sw]
     top_words = Counter(sentence).most_common(5)
     return top_words
+
+
+def deleteUsedLocalFile(audio_file_path):
+    print("deleteUsedLocalFile")
+    print(audio_file_path)
+    os.remove(audio_file_path)
+    
+   
+def deleteUsedGCSFile(gcs_fileName):
+    bucket_name = 'audio_storage_tpj'
+    storage_client = storage.Client()
+    bucket = storage_client.bucket(bucket_name)
+    blob = bucket.blob("audio/"+gcs_fileName)
+    blob.delete()
+    print(gcs_fileName+"deleted.") 
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
