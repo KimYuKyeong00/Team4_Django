@@ -14,11 +14,12 @@ from konlpy.tag import Okt
 from konlpy.tag import Kkma
 from collections import Counter
 import torch
+from myapp.apps import tuned_model
 
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import concurrent.futures
-from transformers import PreTrainedTokenizerFast, BartForConditionalGeneration
+from transformers import PreTrainedTokenizerFast, BartForConditionalGeneration, BartConfig
 
 # AudioSegment.converter = "C:/ffmpeg-6.1-essentials_build/ffmpeg-6.1-essentials_build/bin"
 
@@ -219,7 +220,11 @@ def summarize_transcript(transcript):
 
     tokenizer = PreTrainedTokenizerFast.from_pretrained('digit82/kobart-summarization')
     model = BartForConditionalGeneration.from_pretrained('digit82/kobart-summarization')
-
+    # model = tuned_model
+    
+    
+    model.eval()
+    
     text = text.replace('\n', ' ')
 
     result = ""
