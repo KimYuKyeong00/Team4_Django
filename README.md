@@ -65,7 +65,7 @@ IDE : VSCODE(Django), Eclipse(e-gov, Spring MVC)
 
 [AI-Hub 방송콘텐츠데이터](https://www.aihub.or.kr/aihubdata/data/view.do?currMenu=115&topMenu=100&aihubDataSe=data&dataSetSn=591) 를 사용하여 학습된 모델인 [Ko-Bart모델](https://github.com/seujung/KoBART-summarization) 을 fine-tuning을 진행했습니다.
 
-학습은 리소스부족 때문에colab에서 진행하였으며 그 내부에서 라이브러리 충돌을 방지하기 위해 conda가상환경을 세팅하여 시행하였습니다.
+학습은 리소스부족 때문에 colab에서 진행하였으며 그 내부에서 라이브러리 충돌을 방지하기 위해 conda가상환경을 세팅하여 시행하였습니다.
 
 초기 loss 값 약 9 에서 학습 이후 loss값이 약 2로 감소하였습니다. (해당 데이터에 학습이 정상적으로 진행되었습니다)
 ![image](https://github.com/KimYuKyeong00/Team4/assets/152937847/0b546328-ada7-4a30-a33a-2f050cf352a8)
