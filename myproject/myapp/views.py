@@ -14,7 +14,7 @@ from konlpy.tag import Okt
 from konlpy.tag import Kkma
 from collections import Counter
 import torch
-from myapp.apps import tuned_model
+# from myapp.apps import tuned_model
 
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
