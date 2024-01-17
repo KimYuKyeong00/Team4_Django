@@ -31,7 +31,7 @@ IDE : VSCODE(Django), Eclipse(e-gov, Spring MVC)
 
 ### <자막추출, 태그추천, 타임라인 생성>
 - 영상을 업로드 한뒤 영상분석 버튼을 누르면 자막이 추출되며, 추천태그도 텍스트박스 상단에 생성됩니다. 태그를 누르면 #[태그]의 형태로 텍스트 박스에 추가되며, 자막을 클릭하면 클릭한 부분의 타임라인이 텍스트박스에 기록됩니다.
-
+- 구글의 STT API 를 사용하여 구현하였습니다.
 ![image](https://github.com/KimYuKyeong00/Team4_Spring/assets/152937847/507aa20e-5400-421f-86af-bb64216c5799)
 ![image](https://github.com/KimYuKyeong00/Team4_Spring/assets/152937847/dc9e03dc-62ea-4872-80eb-52ac8b0e685f)
 ![image](https://github.com/KimYuKyeong00/Team4_Spring/assets/152937847/e6db9ce2-8f56-4a0e-bf0d-dbeaa73cab8b)
@@ -43,6 +43,7 @@ IDE : VSCODE(Django), Eclipse(e-gov, Spring MVC)
 
 ### <요약 생성>
 - 요약하기 버튼을 클릭하면 자막으로 추출된 텍스트의 요약본이 텍스트박스에 추가됩니다.
+- ko-bart 모델을 사용하여 구현하였습니다.
 ![image](https://github.com/KimYuKyeong00/Team4_Spring/assets/152937847/da439157-23d6-466d-8032-05e33597fb85)
 ![image](https://github.com/KimYuKyeong00/Team4_Spring/assets/152937847/e7873d3f-9b89-45f6-a640-aa560e9f668c)
 
